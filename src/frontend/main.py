@@ -1,4 +1,6 @@
 from custom_sub_pages import custom_sub_pages, protected
+from questionnaire_page import questionnaire_page
+from header import SharedHeader
 
 from nicegui import app, ui
 
@@ -6,21 +8,12 @@ from nicegui import app, ui
 @ui.page('/')
 @ui.page('/{_:path}')
 def main_page():
-    with ui.header().classes('items-center bg-blue-100'):
-        ui.button('Home', on_click=lambda: ui.navigate.to('/')).props('flat')
-        ui.button('Secret', on_click=lambda: ui.navigate.to('/secret')).props('flat')
-        ui.button('Invalid', on_click=lambda: ui.navigate.to('/invalid')).props('flat')
-        ui.button('Error', on_click=lambda: ui.navigate.to('/error')).props('flat')
-        ui.space()
-        ui.button('Logout', icon='logout').props('flat') \
-            .bind_visibility_from(app.storage.user, 'authenticated') \
-            .on_click(lambda: app.storage.user.update(authenticated=False)) \
-            .on_click(lambda: ui.navigate.to('/'))
+    SharedHeader(active_page="Home")
 
     custom_sub_pages({
         '/': home,
         '/secret': secret,
-        '/error': error,
+        '/error': error
     }).classes('flex-grow p-4')
 
 
