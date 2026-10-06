@@ -50,6 +50,6 @@ if __name__ in {'__main__', '__mp_main__'}:
     ui.run(
         storage_secret="demo_secret_key_change_in_production",
         title="FHIR Track 2 Case Questionaire",
-        native=True,
+        native=False,
         reload=True,
         )
