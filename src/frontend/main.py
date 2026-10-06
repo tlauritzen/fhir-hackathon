@@ -1,5 +1,8 @@
 from custom_sub_pages import custom_sub_pages, protected
 
+from daily_activity import daily_activity_page
+from search_page import search_page
+
 from nicegui import app, ui
 
 
@@ -11,6 +14,8 @@ def main_page():
         ui.button('Secret', on_click=lambda: ui.navigate.to('/secret')).props('flat')
         ui.button('Invalid', on_click=lambda: ui.navigate.to('/invalid')).props('flat')
         ui.button('Error', on_click=lambda: ui.navigate.to('/error')).props('flat')
+        ui.button('Daily Activity', on_click=lambda: ui.navigate.to('/daily_activity')).props('flat')
+        ui.button('Search', on_click=lambda: ui.navigate.to('/search_page')).props('flat')
         ui.space()
         ui.button('Logout', icon='logout').props('flat') \
             .bind_visibility_from(app.storage.user, 'authenticated') \
@@ -21,6 +26,8 @@ def main_page():
         '/': home,
         '/secret': secret,
         '/error': error,
+        '/daily_activity': daily_activity_page,
+        '/search_page': search_page,
     }).classes('flex-grow p-4')
 
 
