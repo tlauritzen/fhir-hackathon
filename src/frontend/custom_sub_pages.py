@@ -47,10 +47,11 @@ class CustomSubPages(ui.sub_pages):
 
     def _show_login_form(self, intended_path: str) -> None:
         with ui.card().classes('absolute-center items-stretch'):
-            ui.label('Protected Area').classes('text-2xl')
-            ui.label('Enter passphrase to continue.')
-            passphrase = ui.input('Passphrase', password=True, password_toggle_button=True) \
-                .classes('w-64').props('autofocus')
+            ui.label('Indtast patient').classes('text-2xl')
+            ui.label('Indtast det fulde navn på den patient, som udfylder spørgeskemaet.')
+            ui.label('Måske er det dig selv?')
+            passphrase = ui.input('Patientens navn', password=False, password_toggle_button=False) \
+                .classes('w-100').props('autofocus')
 
             def try_login():
                 if passphrase.value == 'spa':
@@ -61,7 +62,7 @@ class CustomSubPages(ui.sub_pages):
                     ui.notify('Incorrect passphrase', color='negative')
 
             passphrase.on('keydown.enter', try_login)
-            ui.button('Login', on_click=try_login)
+            ui.button('Fortsæt', on_click=try_login)
 
 
 # Function-like access following NiceGUI convention where classes are callable to feel like functions

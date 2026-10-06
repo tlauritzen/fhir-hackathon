@@ -1,4 +1,6 @@
 from nicegui import app, ui
+from custom_sub_pages import custom_sub_pages, protected
+
 from header import SharedHeader
 
 def question(question_text: str, choices: dict):
@@ -10,6 +12,7 @@ def question(question_text: str, choices: dict):
     ui.label(question_text)
     ui.radio(choices)
 
+@protected
 def questionnaire_page():
     with ui.column().classes('flex-grow p-4'):
         ui.label("Spørgeskema")
