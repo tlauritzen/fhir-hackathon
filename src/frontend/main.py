@@ -1,6 +1,5 @@
 from custom_sub_pages import custom_sub_pages, protected
 from questionnaire_page import questionnaire_page
-from header import SharedHeader
 
 from daily_activity import daily_activity_page
 from search_page import search_page
@@ -11,7 +10,22 @@ from nicegui import app, ui
 @ui.page('/')
 @ui.page('/{_:path}')
 def main_page():
-    SharedHeader()
+    def handle_logout():
+        app.storage.user.clear()
+        ui.navigate.reload()
+
+    with ui.header().classes('items-center bg-blue-100') as header:
+        ui.button('Home', on_click=lambda: ui.navigate.to('/')).props('flat')
+        ui.button('Questionnaire', on_click=lambda: ui.navigate.to('/questionnaire')).props('flat')
+        ui.button('Daily Activity', on_click=lambda: ui.navigate.to('/daily_activity')).props('flat')
+        ui.button('Search', on_click=lambda: ui.navigate.to('/search_page')).props('flat')
+        ui.button('Secret', on_click=lambda: ui.navigate.to('/secret')).props('flat')
+        ui.button('Invalid', on_click=lambda: ui.navigate.to('/invalid')).props('flat')
+        ui.button('Error', on_click=lambda: ui.navigate.to('/error')).props('flat')
+        ui.space()
+        if app.storage.user.get('patient_id'):
+            ui.markdown(f"Patient ID: **{app.storage.user.get('patient_id', 'Unknown')}**").classes('text-gray-600')
+            ui.button('Logout', icon='logout').props('flat').on_click(handle_logout)
 
     custom_sub_pages({
         '/': home,

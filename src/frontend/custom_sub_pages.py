@@ -65,9 +65,10 @@ class CustomSubPages(ui.sub_pages):
                         app.storage.user["patient_id"] = patient_obj["id"]
                         self._reset_match()
                         ui.navigate.to(intended_path)
+                        ui.navigate.reload()
                     except BaseException:
                         import traceback; traceback.print_exc()
-                        ui.notify("NO GOOD", color="negative")
+                        ui.notify("NO GOOD, try LUCKMASTER", color="negative")
                 else:
                     ui.notify('Incorrect passphrase', color='negative')
 
