@@ -3,6 +3,11 @@ from collections.abc import Callable
 from nicegui import app, ui
 from nicegui.page_arguments import RouteMatch
 
+from fhirpy import SyncFHIRClient
+
+
+client = SyncFHIRClient("https://hapi.fhir.org/baseR4")
+
 
 def protected(func: Callable) -> Callable:
     """Decorator to mark a route handler as requiring authentication for the custom_sub_pages."""
@@ -43,25 +48,30 @@ class CustomSubPages(ui.sub_pages):
         return getattr(handler, '_is_protected', False)
 
     def _is_authenticated(self) -> bool:
-        return app.storage.user.get('authenticated', False)
+        return app.storage.user.get('patient_id', False)
 
     def _show_login_form(self, intended_path: str) -> None:
         with ui.card().classes('absolute-center items-stretch'):
             ui.label('Indtast patient').classes('text-2xl')
             ui.label('Indtast det fulde navn på den patient, som udfylder spørgeskemaet.')
             ui.label('Måske er det dig selv?')
-            passphrase = ui.input('Patientens navn', password=False, password_toggle_button=False) \
+            patient = ui.input('Patientens navn', password=False, password_toggle_button=False) \
                 .classes('w-100').props('autofocus')
 
             def try_login():
-                if passphrase.value == 'spa':
-                    app.storage.user['authenticated'] = True
-                    self._reset_match()  # reset the current match to allow the page to be rendered again
-                    ui.navigate.to(intended_path)
+                if patient.value:
+                    try:
+                        patient_obj = client.resources("Patient").search(name=patient.value).get()
+                        app.storage.user["patient_id"] = patient_obj["id"]
+                        self._reset_match()
+                        ui.navigate.to(intended_path)
+                    except BaseException:
+                        import traceback; traceback.print_exc()
+                        ui.notify("NO GOOD", color="negative")
                 else:
                     ui.notify('Incorrect passphrase', color='negative')
 
-            passphrase.on('keydown.enter', try_login)
+            patient.on('keydown.enter', try_login)
             ui.button('Fortsæt', on_click=try_login)
 
 
