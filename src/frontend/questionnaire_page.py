@@ -10,9 +10,7 @@ def question(question_text: str, choices: dict):
     ui.label(question_text)
     ui.radio(choices)
 
-@ui.page("/questionnaire")
 def questionnaire_page():
-    SharedHeader(active_page="Questionnaire")
     with ui.column().classes('flex-grow p-4'):
         ui.label("Spørgeskema")
         ui.html("<p>Dette spørgeskema skal udfyldes hver anden uge.</p>")
@@ -23,3 +21,6 @@ def questionnaire_page():
             "Jeg har moderate problemer, som påvirker min dagligdag i nogen grad.": "moderate",
         }
         question(test_q, test_choices)
+
+if __name__ == "__main__":
+    questionnaire_page()

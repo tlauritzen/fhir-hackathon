@@ -11,12 +11,13 @@ from nicegui import app, ui
 @ui.page('/')
 @ui.page('/{_:path}')
 def main_page():
-    SharedHeader(active_page="Home")
+    SharedHeader()
 
     custom_sub_pages({
         '/': home,
         '/secret': secret,
         '/error': error,
+        '/questionnaire': questionnaire_page,
         '/daily_activity': daily_activity_page,
         '/search_page': search_page,
     }).classes('flex-grow p-4')
