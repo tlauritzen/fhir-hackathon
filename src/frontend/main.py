@@ -2,6 +2,9 @@ from custom_sub_pages import custom_sub_pages, protected
 from questionnaire_page import questionnaire_page
 from header import SharedHeader
 
+from daily_activity import daily_activity_page
+from search_page import search_page
+
 from nicegui import app, ui
 
 
@@ -13,7 +16,9 @@ def main_page():
     custom_sub_pages({
         '/': home,
         '/secret': secret,
-        '/error': error
+        '/error': error,
+        '/daily_activity': daily_activity_page,
+        '/search_page': search_page,
     }).classes('flex-grow p-4')
 
 
