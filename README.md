@@ -11,3 +11,9 @@ https://hapi.fhir.org/baseR4/swagger-ui
 
 #### Beskrivelse af formater:
 https://hl7.org/fhir/resourcelist.html
+
+
+#### Libraries
+FHIR model: https://pypi.org/project/fhir.resources/
+
+FHIR client: https://pypi.org/project/fhirpy/
