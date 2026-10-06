@@ -10,6 +10,7 @@ requires-python = "==3.14.7"
 dependencies = [
     "fhir-resources>=8.3.0",
     "nicegui>=3.17.1",
+    "pywebview>=6.2.1",
 ]
 
 [project.scripts]
