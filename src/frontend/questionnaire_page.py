@@ -1,29 +1,47 @@
 from nicegui import app, ui
 from custom_sub_pages import custom_sub_pages, protected
+from fhirpy import AsyncFHIRClient
 
-from header import SharedHeader
+def get_question_artifact():
+    print("grab question")
+    client = AsyncFHIRClient("https://hapi.fhir.org/baseR4")
 
-def question(question_text: str, choices: dict):
-    ui.markdown('''
-        ### Questionnaire 📝
+def get_question():
+    pass
 
-        This is a questionnaire page for users to fill out.
-    ''')
-    ui.label(question_text)
-    ui.radio(choices)
+def get_choices():
+    pass
+
+def submit_answer():
+    pass
+
+
+placeholder_question = {
+    "question": "Er du ok?",
+    "choices": {
+        "awdhwakdhdkwahdwaa-awdwadwad-dwawadwad1": "Ja",
+        "awdhwakdhdkwahdwaa-awdwadwad-dwawadwad2": "Nej",
+        "awdhwakdhdkwahdwaa-awdwadwad-dwawadwad3": "Ved ikke",
+    },
+}
+
+questions = [placeholder_question]
+
+def question(question: dict):
+    ui.markdown(f"## {question["question"]}")
+    ui.radio(question["choices"])
 
 @protected
 def questionnaire_page():
+    get_question_artifact()
     with ui.column().classes('flex-grow p-4'):
-        ui.label("Spørgeskema")
-        ui.html("<p>Dette spørgeskema skal udfyldes hver anden uge.</p>")
-        test_q = "Hvilken af følgende muligheder beskriver bedst din nuværende situation?"
-        test_choices = {
-            "Jeg har det godt og oplever ingen problemer.": "good",
-            "Jeg har nogle mindre problemer, men det påvirker ikke min dagligdag væsentligt.": "minor",
-            "Jeg har moderate problemer, som påvirker min dagligdag i nogen grad.": "moderate",
-        }
-        question(test_q, test_choices)
+        ui.markdown('''# Spørgeskema
+
+Dette spørgeskema skal udfyldes hver anden uge.
+                    
+Det er vigtigt, at du svarer ærligt, da dine svar vil hjælpe os med at forstå din situation bedre og give dig den bedst mulige behandling.''')
+        for q in questions:
+            question(q)
 
 if __name__ == "__main__":
     questionnaire_page()
